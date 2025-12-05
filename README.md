@@ -1,45 +1,60 @@
-Vetty Internship – Cryptocurrency Market API (FastAPI + CoinGecko)
+Vetty Internship – Cryptocurrency Market Backend API
 
-A backend API built using FastAPI that fetches live cryptocurrency data from the CoinGecko API.
-This project implements authentication, pagination, multiple pricing currencies, category filtering, Docker support, and automated API documentation.
+A fully functional FastAPI backend that fetches real-time cryptocurrency data from the CoinGecko API, secured with JWT Authentication, supporting pagination, coin categories, multi-currency market data, Docker support, and unit tests.
 
-🚀 Features
-✔ User Authentication
+📑 Table of Contents
 
-JWT-based secure login (/token)
+Features
 
-Protected routes require Authorization Header
+Tech Stack
 
-✔ Cryptocurrency Data Endpoints
+Project Structure
 
-List all coins (paginated)
+Local Installation
 
-List categories
+Running the Server
 
-Get coin markets in INR and CAD
+Authentication
 
-Get specific coin details
+API Endpoints
 
-✔ Advanced API Features
+Pagination Rules
 
-Pagination (page_num, per_page)
+Docker Setup
 
-Swagger UI (automatic documentation)
+Running Tests
 
-Health Check (/health)
+Future Improvements
 
-Version Info (/version)
+Author
 
-Fully async using HTTPX & FastAPI
+⭐ Features
 
-✔ Deployment Ready
+🔐 JWT Authentication for protected routes
 
-Dockerfile included
+📊 Live Crypto Market Data from CoinGecko
 
-Can run locally or in container
+🌍 Prices available in INR and CAD
 
-Clean project structure
+📂 List coins, categories, and specific coin details
 
+📄 Built-in Pagination
+
+📘 Auto-generated Swagger Docs (/docs)
+
+🐳 Dockerfile included
+
+🧪 Unit Tests using PyTest
+
+🛠 Tech Stack
+Component	Technology
+Framework	FastAPI
+Server	Uvicorn
+External API	CoinGecko
+Auth	JWT (PyJWT)
+HTTP Client	HTTPX
+Virtualization	Docker
+Testing	PyTest
 📂 Project Structure
 vetty-backend/
 │── app/
@@ -52,69 +67,65 @@ vetty-backend/
 │── Dockerfile
 │── README.md
 
-🔐 Authentication
-Request Token
+💻 Local Installation
+1️⃣ Clone the repository
+git clone https://github.com/RahulMunda96/vetty-backend.git
+cd vetty-backend
 
-POST /token
-Use form-data:
+2️⃣ Create virtual environment
+python -m venv venv
+
+3️⃣ Activate (Windows)
+.\venv\Scripts\activate
+
+4️⃣ Install dependencies
+pip install -r requirements.txt
+
+▶️ Running the Server
+
+Start the API:
+
+python -m uvicorn app.main:app --reload
+
+
+Open Swagger docs:
+
+👉 http://127.0.0.1:8000/docs
+
+🔐 Authentication
+Get a token
+
+POST /token using form-data:
 
 username: admin
 password: admin123
 
-Use token for protected routes
 
-Swagger → Click Authorize → enter:
+Response:
 
-Bearer <your_token>
-
-🔧 Installation & Running (Local Setup)
-1️⃣ Clone repository
-git clone https://github.com/RahulMunda96/vetty-backend.git
-cd vetty-backend
-
-2️⃣ Create and activate virtual environment
-python -m venv venv
-
-# Windows
-.\venv\Scripts\activate
-
-3️⃣ Install dependencies
-pip install -r requirements.txt
-
-4️⃣ Start FastAPI server
-python -m uvicorn app.main:app --reload
-
-5️⃣ Open API documentation
-
-Swagger UI:
-
-👉 http://127.0.0.1:8000/docs
-
-🐳 Run with Docker
-1️⃣ Build Docker image
-docker build -t vetty-backend .
-
-2️⃣ Run container
-docker run -p 8000:8000 vetty-backend
+{
+  "access_token": "<your_token>",
+  "token_type": "bearer"
+}
 
 
-Open in browser:
+Use token with:
 
-👉 http://127.0.0.1:8000/docs
+Authorization: Bearer <your_token>
 
-📡 Available Endpoints
-🔓 Public
+📡 API Endpoints
+Public
 Method	Endpoint	Description
-GET	/health	Check API status
-GET	/version	Version info
+GET	/health	Health check
+GET	/version	API version
 POST	/token	Get JWT token
-🔐 Protected (Requires Token)
+Protected (requires token)
 Method	Endpoint	Description
-GET	/coins	Paginated list of coins
-GET	/categories	List categories (paginated)
-GET	/coins/markets	Prices in INR or CAD
-GET	/coins/{coin_id}	Specific coin details
-📘 Pagination Rules
+GET	/coins	List coins (paginated)
+GET	/categories	List categories
+GET	/coins/markets	Market data in INR/CAD
+GET	/coins/{coin_id}	Get specific coin
+📄 Pagination Rules
 
 Default:
 
@@ -122,12 +133,18 @@ page_num = 1
 per_page = 10
 
 
-Can override:
+Example:
 
 /coins?page_num=2&per_page=20
 
-🧪 Unit Testing
+🐳 Docker Setup
+Build Image
+docker build -t python_api .
 
-Run:
+Run Container
+docker run -p 8000:8000 python_api
 
-pytest
+
+Open:
+
+👉 http://127.0.0.1:8000/docs
